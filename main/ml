@@ -61,6 +61,9 @@ let frapper  = fun perso -> match perso.classe with
   | Magicien -> if(Random.int 100 <50+perso.niveau*5) then 5 else 0;;
   
 
+
+(* Appel et lanceur *)
+
 let mon_monstre = {nom=Golem; pv = 25 ; attaque = 1 ; loot= Eponge};; 
 
 let personnage = {nom = "Laurent" ; classe = Guerrier ;  genre = Male  ; pv = 10 ; exp = 0; niveau = 0; sac = [] } ;;
