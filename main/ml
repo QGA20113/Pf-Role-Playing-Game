@@ -1,0 +1,57 @@
+(* création personnage *) 
+
+type sac = | Eponge | Cuisse_de_poulet | Piece;;
+type classe = | Guerrier | Archer | Magicien;;
+type genre = | Homme | Femme;;
+
+type personnage = {nom : string ; classe : string ;  genre : string ; pv: int; exp : int; niveau : int; sac : sac list} ;;
+
+
+(* création monstre *) 
+
+type type_de_monstre = | Golem | Nuee_de_moustiques | Sanglier
+type choix_butin = | Eponge | Poulet | Piece
+                     
+type monstre = {nom : type_de_monstre ; pv : int ; attaque : string ; loot : choix_butin}
+  
+
+
+
+  
+  
+type item = | Eponge | Piece | Cuisse_poulet ;; 
+type quantite = int ;;
+type items = { item: item; quantite: quantite} ;;
+(* du coup le sac est une items list*)
+let item_to_string = fun it->
+  match it with 
+  | Eponge -> "éponges"
+  | Piece -> "pièces"
+  | Cuisse_poulet -> "poulets" ;;
+let rec afficher_contenu_sac = fun sac ->
+  match sac with
+  |[]-> print_string "\n"
+  |{item=i; quantite= q}::tl when q>0-> 
+      print_int q;
+      print_string (" "^(item_to_string i));
+      print_string "\n";
+      afficher_contenu_sac tl
+  |{item=i; quantite= q}::tl-> afficher_contenu_sac tl;;
+exception No_food
+let rec manger = fun perso -> 
+  match perso.sac with
+  |[]-> print_string "pas de poulet"
+  |{item=i; quantite=q}::tl when i=Cuisse_poulet->
+      if q>0
+      then if perso.pv+2<20
+        then perso.pv<-perso.pv+2 (* marche pas*)
+                         q=q-1 
+                             print_string "Vous mangez 1 poulet et gagnez 2 points de vie"
+        else print_string "Vous mangez 1 poulet"
+      else raise No_food 
+  |{item=i; quantite=q}::tl-> manger tl ;;
+
+
+let mon_monstre = {nom=Golem; pv = 10 ; attaque = "eclair" ; loot= Eponge}
+
+let personnage = {nom = "Laurent" ; classe = "guerrier" ;  genre = "male"  ; pv = 10 ; exp = 0; niveau = 0; sac = [Eponge] } ;;
