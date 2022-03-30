@@ -18,21 +18,25 @@ type personnage = {nom : string ; classe : classe ;  genre : genre ; pv: int; ex
 
 
 
-(* création monstre *) 
+(* partie monstre *) 
 
 type type_de_monstre = | Golem | Nuee_de_moustiques | Sanglier
 type choix_butin = | Eponge | Poulet | Piece
                      
 type monstre = {nom : type_de_monstre ; pv : int ; attaque : int ; loot : choix_butin};;
   
+let pv_monstre  = fun mstr -> match mstr.nom with
+  | Golem -> mstr.pv + Random.int 6
+  | Nuee_de_moustiques -> mstr.pv + Random.int 10
+  | Sanglier -> mstr.pv + Random.int 4;;
+  
 
-
-
+(* Gameplay personnage *) 
     
 type item = | Eponge | Piece | Cuisse_poulet ;; 
 type quantite = int ;;
 type items = { item: item; quantite: quantite} ;;
-(* du coup le sac est une items list*)
+
 let item_to_string = fun it->
   match it with 
   | Eponge -> "éponges"
@@ -48,14 +52,9 @@ let rec afficher_contenu_sac = fun sac ->
       print_string "\n";
       afficher_contenu_sac tl
   |{item=i; quantite= q}::tl-> afficher_contenu_sac tl;;
-exception No_food
-  
+exception No_food 
 
-let pv_monstre  = fun mstr -> match mstr.nom with
-  | Golem -> mstr.pv + Random.int 6
-  | Nuee_de_moustiques -> mstr.pv + Random.int 10
-  | Sanglier -> mstr.pv + Random.int 4;;
-  
+
 let frapper  = fun perso -> match perso.classe with
   | Guerrier -> if(Random.int 100 <30+perso.niveau*5) then 10 else 0
   | Archer -> if(Random.int 100 <70+perso.niveau*5) then 4 else 0
@@ -64,4 +63,4 @@ let frapper  = fun perso -> match perso.classe with
 
 let mon_monstre = {nom=Golem; pv = 25 ; attaque = 1 ; loot= Eponge};; 
 
-let personnage = {nom = "Laurent" ; classe = Guerrier ;  genre = Male  ; pv = 10 ; exp = 0; niveau = 0; sac = [Eponge] } ;;
+let personnage = {nom = "Laurent" ; classe = Guerrier ;  genre = Male  ; pv = 10 ; exp = 0; niveau = 0; sac = [] } ;;
