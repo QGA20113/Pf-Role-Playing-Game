@@ -23,7 +23,7 @@ type personnage = {nom : string ; classe : classe ;  genre : genre ; pv: int; ex
 type type_de_monstre = | Golem | Nuee_de_moustiques | Sanglier
 type choix_butin = | Eponge | Poulet | Piece
                      
-type monstre = {nom : type_de_monstre ; pv : int ; attaque : int ; loot : choix_butin};;
+type monstre = {nom : type_de_monstre ; pv : int ; attaque : int ; loot : choix_butin; nombre : int};;
   
 let pv_monstre  = fun mstr -> match mstr.nom with
   | Golem -> mstr.pv + Random.int 6
@@ -60,7 +60,10 @@ let frapper  = fun perso -> match perso.classe with
   | Archer -> if(Random.int 100 <70+perso.niveau*5) then 4 else 0
   | Magicien -> if(Random.int 100 <50+perso.niveau*5) then 5 else 0;;
   
-
+let frapper_monstre = fun monstre -> match monstre.nom with
+  | Golem -> 4
+  | Nuee_de_moustiques -> 1/2*monstre.nombre
+  | Sanglier -> 2;;
 
 (* Appel et lanceur *)
 
